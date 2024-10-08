@@ -1,0 +1,16 @@
+# Add an image that supports multi-platform
+FROM node:18-alpine AS build
+
+WORKDIR /app
+
+COPY package*.json ./
+
+RUN rm -rf node_modules
+
+RUN npm install
+
+COPY . .
+
+EXPOSE 6006
+
+CMD ["npm", "run", "storybook:prod --no-open"]

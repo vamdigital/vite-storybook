@@ -8,7 +8,7 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "storybook": "storybook dev -p 6006",
+    "storybook": "storybook dev -p 6006 --no-open",
     "generate-backstop-config": "node generateBackstopConfig.cjs",
     "build-storybook": "storybook build",
     "storybook:prod": "npm run build-storybook && npx http-serve storybook-static -p 6006 -a 0.0.0.0",
