@@ -13,7 +13,7 @@ async function getStorybookStories() {
         const story = stories[storyId];
         return {
           label: story.name,
-          url: `http://localhost:6006/iframe.html?id=${story.id}`,
+          url: `http://sb-prod:6006/iframe.html?id=${story.id}`,
           selectors: ["#storybook-root"],
           misMatchThreshold: 0.01,
           delay: 500, // Adjust delay to ensure content has loaded
@@ -58,6 +58,17 @@ async function generateBackstopConfig() {
     },
     report: ["browser", "CI"],
     engine: "puppeteer",
+    engineOptions: {
+      disableFontsAntialiasing: true,
+      timeout: 30000,
+      args: [
+        "--no-sandbox",
+        "--disable-setuid-sandbox",
+        "--disable-dev-shm-usage",
+        "--headless=false",
+        "--disable-gpu",
+      ],
+    },
     asyncCaptureLimit: 5,
     asyncCompareLimit: 50,
     debug: false,
