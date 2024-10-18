@@ -27,39 +27,39 @@ services:
         reservations:
           memory: 256M
 
-  backstopjs:
-    # image: backstopjs/backstopjs:latest
-    build:
-      context: .
-      dockerfile: Dockerfile.backstop
-    volumes:
-      - ./backstop_data:/backstop_data
-      - .:/app
-    entrypoint: [
-        # "/usr/local/bin/wait-for-it.sh",
-        # "sb-app-prod:6006",
-        # "--",
-        "backstop",
-        # "${COMMAND:-test}",
-        # "--configPath=/app/backstop.config.cjs",
-      ]
-    # the below syntax sets the default value to test if COMMAND=approve is not provided while running docker compose up command like so COMMAND=approve docker compose up
-    command:
-      ["${COMMAND:-test}", "--configPath=/app/backstop.config.cjs", "--no-open"]
-    depends_on:
-      - sb-app-prod
-    networks:
-      - sb_network
-    environment:
-      - CI=true
-      - ENVIRONMENT=docker
-    # restart: unless-stopped
-    deploy:
-      resources:
-        limits:
-          memory: 512M
-        reservations:
-          memory: 256M
+  # backstopjs:
+  #   # image: backstopjs/backstopjs:latest
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile.backstop
+  #   volumes:
+  #     - ./backstop_data:/backstop_data
+  #     - .:/app
+  #   entrypoint: [
+  #       # "/usr/local/bin/wait-for-it.sh",
+  #       # "sb-app-prod:6006",
+  #       # "--",
+  #       "backstop",
+  #       # "${COMMAND:-test}",
+  #       # "--configPath=/app/backstop.config.cjs",
+  #     ]
+  #   # the below syntax sets the default value to test if COMMAND=approve is not provided while running docker compose up command like so COMMAND=approve docker compose up
+  #   command:
+  #     ["${COMMAND:-test}", "--configPath=/app/backstop.config.cjs", "--no-open"]
+  #   depends_on:
+  #     - sb-app-prod
+  #   networks:
+  #     - sb_network
+  #   environment:
+  #     - CI=true
+  #     - ENVIRONMENT=docker
+  #   # restart: unless-stopped
+  #   deploy:
+  #     resources:
+  #       limits:
+  #         memory: 512M
+  #       reservations:
+  #         memory: 256M
 
 networks:
   sb_network:
