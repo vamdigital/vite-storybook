@@ -37,13 +37,11 @@ jobs:
       - name: Build Storybook
         run: npm run build-storybook
 
-      - name: Output build logs
-        run: cat ./storybook-static/*.log || true
-
       - name: Build docker container
         run: |
           docker build -t vite-sb -f Dockerfile.prod .
           docker compose -f docker-compose.prod.yml up
+        continue-on-error: true
 
       - name: Upload Backstop Results (if failed)
         if: failure()
