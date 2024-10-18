@@ -41,10 +41,11 @@ jobs:
         run: |
           docker build -t vite-sb -f Dockerfile.prod .
           docker compose -f docker-compose.prod.yml up || true
+          docker compose logs -f 
+          docker compose -f docker-compose.prod.yml down
         continue-on-error: true
 
       - name: Upload Backstop Results (if failed)
-        if: failure()
         uses: actions/upload-artifact@v3
         with:
           name: backstop-results
