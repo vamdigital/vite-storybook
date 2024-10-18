@@ -31,7 +31,7 @@ jobs:
         run: npm run build
 
       - name: Build docker container
-        run: docker buildx build --platform linux/amd64 -t vite-sb -f Dockerfile.prod build --no-cache .
+        run: docker build -t vite-sb -f Dockerfile.prod build --no-cache .
 
       - name: Run storybook and backstop
         run: docker compose -f docker-compose.prod.yml up
@@ -53,7 +53,7 @@ jobs:
             github.issues.createComment({
               issue_number: ${{ github.event.pull_request.number }},
               owner: context.repo.owner,
-              repo: context.repo.repo
+              repo: context.repo.repo,
               body: commentBody,
             });
   approve:
