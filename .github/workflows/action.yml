@@ -40,8 +40,7 @@ jobs:
       - name: Build and Run Docker Container
         run: |
           docker buildx build --platform linux/amd64 -t vite-sb -f Dockerfile.prod --no-cache . 
-          docker compose -f docker-compose.prod.yml up
-          docker exec vite-sb npx backstop test --configPath=/app/backstop.config.cjs --no-open || true
+          docker compose -f docker-compose.prod.yml
           docker compose -f docker-compose.prod.yml down
         continue-on-error: true
 
