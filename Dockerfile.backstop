@@ -31,5 +31,10 @@ RUN npm install -g backstopjs
 # # Set the working directory
 WORKDIR /app
 #
-# # Copy the BackstopJS config (backstop.json) and project files
+
+# Copy the BackstopJS config (backstop.json) and project files
+COPY backstop.config.cjs ./
+
+COPY backstop_data ./backstop_data
+
 COPY . .
