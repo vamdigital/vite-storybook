@@ -13,6 +13,7 @@
     "build-storybook": "storybook build",
     "storybook:prod": "npm run build-storybook && http-serve storybook-static -p 6006 -a 0.0.0.0",
     "bs": "backstop test --configPath=backstop.config.cjs",
+    "backstop:approve": "backstop approve",
     "test:visual": "npm run generate-backstop-config && backstop $npm_config_step --configPath=backstop.config.cjs"
   },
   "dependencies": {

@@ -1,0 +1,67 @@
+name: Visual Regression Testing
+
+on:
+  pull_request:
+    branches:
+      - master
+    workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    services:
+      docker:
+        image: "docker:19.03"
+        options: --privileged
+
+    steps:
+      - name: Checkout Code
+        uses: actions/setup-node@v3
+        with:
+          node-version: "20"
+
+      - name: Install Dependencies
+        run: npm run build
+
+      - name: Build docker container
+        run: docker buildx build --platform linux/amd64 -t vite-sb -f Dockerfile.prod build --no-cache .
+
+      - name: Run storybook and backstop
+        run: docker compose -f docker-compose.prod.yml up
+
+      - name: Upload Backstop Results (if failed)
+        if: failure()
+        uses: actions/upload-artifact@v3
+        with:
+          name: backstop-results
+          path: backstop_data/html_report
+
+      - name: Comment with BackstopJS Results
+        if: failure()
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const reportUrl = `https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts`;
+            const commentBody = `## :warning: Visual regression test failed\n\n\Please [view the BackstopJS report](${reportUrl}) and approve changes if necessary.`;
+            github.issues.createComment({
+              issue_number: ${{ github.event.pull_request.number }},
+              owner: context.repo.owner,
+              repo: context.repo.repo
+              body: commentBody,
+            });
+  approve:
+    runs_on: ubuntu-latest
+    needs: build
+    if: failure()
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "20"
+      - name: Approve BackstopJS changes
+        run: npm run backstop:approve

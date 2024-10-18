@@ -30,3 +30,4 @@ backstop_data/ci_report/
 
 # Storybook static
 storybook-static/
+backstop.generated.config.cjs
