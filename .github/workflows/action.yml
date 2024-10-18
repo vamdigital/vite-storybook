@@ -1,5 +1,9 @@
 name: Visual Regression Testing
 
+permissions:
+  contents: read
+  pull-requests: write
+
 on:
   pull_request:
     branches:
@@ -48,9 +52,9 @@ jobs:
         with:
           script: |
             const reportUrl = `https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts`;
-            const commentBody = `## :warning: Visual regression test failed\n\n\Please [view the BackstopJS report](${reportUrl}) and approve changes if necessary.`;
-            github.issues.createComment({
-              issue_number: ${{ github.event.pull_request.number }},
+            const commentBody = `## :warning: Visual regression test failed\n\nPlease [view the BackstopJS report](${reportUrl}) and approve changes if necessary.`;
+            github.rest.issues.createComment({
+              issue_number: context.payload.pull_request.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
               body: commentBody,
