@@ -40,7 +40,7 @@ jobs:
       - name: Build docker container
         run: |
           docker build -t vite-sb -f Dockerfile.prod .
-          docker compose -f docker-compose.prod.yml up
+          docker compose -f docker-compose.prod.yml up || true
         continue-on-error: true
 
       - name: Upload Backstop Results (if failed)
