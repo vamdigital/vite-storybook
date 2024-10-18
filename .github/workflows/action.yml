@@ -31,10 +31,9 @@ jobs:
         run: npm run build
 
       - name: Build docker container
-        run: docker build -t vite-sb -f Dockerfile.prod build --no-cache .
-
-      - name: Run storybook and backstop
-        run: docker compose -f docker-compose.prod.yml up
+        run: |
+          docker build -t vite-sb -f Dockerfile.prod .
+          docker compose -f docker-compose.prod.yml up
 
       - name: Upload Backstop Results (if failed)
         if: failure()
