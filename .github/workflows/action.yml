@@ -34,6 +34,12 @@ jobs:
       - name: Build Application with Vite
         run: npm run build
 
+      - name: Build Storybook
+        run: npm run build-storybook -- --ci
+
+      - name: Output build logs
+        run: cat ./storybook-static/*.log || true
+
       - name: Build docker container
         run: |
           docker build -t vite-sb -f Dockerfile.prod .
