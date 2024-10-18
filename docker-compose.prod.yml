@@ -34,6 +34,7 @@ services:
       dockerfile: Dockerfile.backstop
     volumes:
       - ./backstop_data:/backstop_data
+      - .:/app
     entrypoint: [
         # "/usr/local/bin/wait-for-it.sh",
         # "sb-app-prod:6006",
@@ -44,8 +45,6 @@ services:
       ]
     # the below syntax sets the default value to test if COMMAND=approve is not provided while running docker compose up command like so COMMAND=approve docker compose up
     command: ["${COMMAND:-test}", "--configPath=/app/backstop.config.cjs"]
-    volumes:
-      - .:/app
     depends_on:
       - sb-app-prod
     networks:
