@@ -44,7 +44,8 @@ services:
         # "--configPath=/app/backstop.config.cjs",
       ]
     # the below syntax sets the default value to test if COMMAND=approve is not provided while running docker compose up command like so COMMAND=approve docker compose up
-    command: ["${COMMAND:-test}", "--configPath=/app/backstop.config.cjs", "--no-open"] || true
+    command:
+      ["${COMMAND:-test}", "--configPath=/app/backstop.config.cjs", "--no-open"]
     depends_on:
       - sb-app-prod
     networks:
