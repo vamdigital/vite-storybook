@@ -37,7 +37,7 @@ jobs:
       - name: Build Storybook
         run: npm run build-storybook
 
-      - name: Build docker container
+      - name: Build and Run Docker Container
         run: |
           docker build -t vite-sb -f Dockerfile.prod .
           docker compose -f docker-compose.prod.yml up || true
@@ -51,12 +51,15 @@ jobs:
           path: backstop_data/html_report
 
       - name: Comment with BackstopJS Results
-        if: failure()
         uses: actions/github-script@v6
         with:
           script: |
-            const reportUrl = `https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts`;
-            const commentBody = `## :warning: Visual regression test failed\n\nPlease [view the BackstopJS report](${reportUrl}) and approve changes if necessary.`;
+            const runId = process.env.GITHUB_RUN_ID;
+            const repo = `${{ github.repository }}`;
+            const commentBody = `
+              ## :warning: Visual regression test failed
+              Please [view the BackstopJS report](https://github.com/${repo}/actions/runs/${runId}) and approve changes if necessary.
+            `;
             github.rest.issues.createComment({
               issue_number: context.payload.pull_request.number,
               owner: context.repo.owner,
