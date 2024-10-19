@@ -72,7 +72,6 @@ jobs:
         run: |
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git config --global user.name "github-actions[bot]"
-          git checkout -b gh-pages
           git checkout --orphan gh-pages
           git rm -rf . # Remove all files in the gh-pages branch
           cp -r backstop_data/html_report/* .
