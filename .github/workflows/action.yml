@@ -58,7 +58,7 @@ jobs:
             const runId = process.env.GITHUB_RUN_ID;
             github.rest.issues.createComment({
               issue_number: ${{ github.event.pull_request.number }},
-              body: 'BackstopJS report generated. You can download it [here](https://github.com/${{ github.repository }}/actions/runs/${{ runId }}/artifacts).'
+              body: 'BackstopJS report generated. You can download it [here](https://github.com/${{ github.repository }}/actions/runs/${ runId }/artifacts).'
             })
         if: ${{ github.event_name == 'pull_request'}}
 
