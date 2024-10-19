@@ -52,22 +52,22 @@ jobs:
             backstop_data/bitmaps_reference/
             backstop_data/bitmaps_test/
 
-      - name: Comment with BackstopJS Results
-        uses: actions/github-script@v6
-        with:
-          script: |
-            const runId = process.env.GITHUB_RUN_ID;
-            const repo = `${{ github.repository }}`;
-            const commentBody = `
-              ## :warning: Visual regression report
-              Please [view the BackstopJS report](https://github.com/${repo}/actions/runs/${runId}) and approve changes if necessary.
-            `;
-            github.rest.issues.createComment({
-              issue_number: context.payload.pull_request.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: commentBody,
-            });
+      # - name: Comment with BackstopJS Results
+      #   uses: actions/github-script@v6
+      #   with:
+      #     script: |
+      #       const runId = process.env.GITHUB_RUN_ID;
+      #       const repo = `${{ github.repository }}`;
+      #       const commentBody = `
+      #         ## :warning: Visual regression report
+      #         Please [view the BackstopJS report](https://github.com/${repo}/actions/runs/${runId}) and approve changes if necessary.
+      #       `;
+      #       github.rest.issues.createComment({
+      #         issue_number: context.payload.pull_request.number,
+      #         owner: context.repo.owner,
+      #         repo: context.repo.repo,
+      #         body: commentBody,
+      #       });
       - name: Deploy BackstopJS Report to GitHub Pages
         run: |
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
