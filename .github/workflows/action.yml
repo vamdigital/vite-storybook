@@ -41,8 +41,12 @@ jobs:
         run: |
           docker buildx build --platform linux/amd64 -t vite-sb -f Dockerfile.prod --no-cache . 
           docker compose -f docker-compose.prod.yml up 
-          docker compose -f docker-compose.prod.yml down || true
+          --abort-on-container-exit
+          --exit-code-from backstopjs
         continue-on-error: true
+
+      - name: Stop Docker Containers
+        run: docker compose -f docker-compose.prod.yml down
 
       - name: Upload Backstop Results (if failed)
         uses: actions/upload-artifact@v3
