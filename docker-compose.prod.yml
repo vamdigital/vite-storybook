@@ -34,8 +34,7 @@ services:
       context: .
       dockerfile: Dockerfile.backstop
     volumes:
-      - ./backstop_data:/backstop_data
-      - .:/app
+      - ./backstop_data:/app/backstop_data
     entrypoint:
       [
         "/usr/local/bin/wait-for-it.sh",
