@@ -37,15 +37,13 @@ jobs:
       - name: Build Storybook
         run: npm run build-storybook
 
-      - name: Build Docker Container
-        run: docker buildx build --platform linux/amd64 -t vite-sb -f Dockerfile.prod --no-cache .
-
-      - name: Up Docker Container
-        run: docker compose -f docker-compose.prod.yml up
-        continue-on-error: true
-
-      - name: Stop Docker Containers
-        run: docker compose -f docker-compose.prod.yml down
+      # Build Docker and run BackstopJS
+      - name: Build and Run Docker Container
+        run: |
+          docker build -t vite-sb -f Dockerfile.prod .
+          timeout 300 docker compose -f docker-compose.prod.yml up --exit-code-from backstopjs-1|| true
+          docker compose down --volumes
+          docker-compose rm -f
 
       - name: Upload Backstop Results
         uses: actions/upload-artifact@v3
