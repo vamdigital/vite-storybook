@@ -51,16 +51,6 @@ jobs:
             backstop_data/html_report/
             backstop_data/bitmaps_reference/
             backstop_data/bitmaps_test/
-      - name: Post BackstopJS Report Link in Comment
-        uses: actions/github-script@v6
-        with:
-          script: |
-            const runId = process.env.GITHUB_RUN_ID;
-            github.rest.issues.createComment({
-              issue_number: ${{ github.event.pull_request.number }},
-              body: 'BackstopJS report generated. You can download it [here](https://github.com/${{ github.repository }}/actions/runs/${ runId }/artifacts).'
-            })
-        if: ${{ github.event_name == 'pull_request'}}
 
       - name: Comment with BackstopJS Results
         uses: actions/github-script@v6
