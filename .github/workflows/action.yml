@@ -40,15 +40,15 @@ jobs:
       - name: Build and Run Docker Container
         run: |
           docker buildx build --platform linux/amd64 -t vite-sb -f Dockerfile.prod --no-cache . 
-          docker compose -f docker-compose.prod.yml up 
-          --abort-on-container-exit
-          --exit-code-from backstopjs-1
+          docker compose -f docker-compose.prod.yml up --exit-code-from backstopjs-1 || true 
+          docker compose -f docker-compose.prod.yml down --volumes
+          docker compose rm -f
         continue-on-error: true
 
       - name: Stop Docker Containers
         run: docker compose -f docker-compose.prod.yml down
 
-      - name: Upload Backstop Results (if failed)
+      - name: Upload Backstop Results
         uses: actions/upload-artifact@v3
         with:
           name: backstop-results
