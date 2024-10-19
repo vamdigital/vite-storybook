@@ -42,7 +42,7 @@ jobs:
           docker buildx build --platform linux/amd64 -t vite-sb -f Dockerfile.prod --no-cache . 
           docker compose -f docker-compose.prod.yml up 
           --abort-on-container-exit
-          --exit-code-from backstopjs
+          --exit-code-from backstopjs-1
         continue-on-error: true
 
       - name: Stop Docker Containers
