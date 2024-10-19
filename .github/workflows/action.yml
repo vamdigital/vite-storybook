@@ -74,7 +74,7 @@ jobs:
           git config --global user.name "github-actions[bot]"
           git checkout -b gh-pages
           mkdir -p out
-          cp -r backstop_data/html_report/* out/
+          cp -r backstop_data/html_report/* .
           git add out/
           git commit -m "Deploy BackstopJS report to GitHub Pages"
           git push --force origin gh-pages
