@@ -75,7 +75,7 @@ jobs:
           git checkout -b gh-pages
           mkdir -p out
           cp -r backstop_data/html_report/* .
-          git add out/
+          git add .
           git commit -m "Deploy BackstopJS report to GitHub Pages"
           git push --force origin gh-pages
 
