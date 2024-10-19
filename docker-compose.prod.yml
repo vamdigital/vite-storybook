@@ -10,6 +10,7 @@ services:
       - "6006:6006"
     environment:
       - HOST=0.0.0.0
+      - CI=true
       - PORT=6006
       - ENVIRONMENT=localhost
     # command: npx serve -s /app/storybook-static
