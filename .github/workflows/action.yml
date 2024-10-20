@@ -41,7 +41,7 @@ jobs:
       - name: Build and Run Docker Container
         run: |
           docker buildx build --platform linux/amd64 -t vite-sb -f Dockerfile.prod .
-          docker compose -f docker-compose.prod.yml up --exit-code-from backstopjs || true
+          docker compose -f docker-compose.prod.yml up --exit-code-from backstopjs
 
       - name: Upload Backstop Results
         uses: actions/upload-artifact@v3
