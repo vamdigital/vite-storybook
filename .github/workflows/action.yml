@@ -41,7 +41,7 @@ jobs:
       - name: Build and Run Docker Container
         run: |
           docker buildx build --platform linux/amd64 -t vite-sb -f Dockerfile.prod .
-          COMMAND=reference docker compose -f docker-compose.prod.yml up --exit-code-from backstopjs || true
+          docker compose -f docker-compose.prod.yml up --exit-code-from backstopjs || true
 
       - name: Upload Backstop Results
         uses: actions/upload-artifact@v3
@@ -74,9 +74,9 @@ jobs:
           git config --global user.name "github-actions[bot]"
           git fetch origin gh-pages
           git checkout --orphan gh-pages
-          git rm -rf .
-          mkdir -p backstop_data/html_report/ bitmaps_reference bitmaps_test
+          cp -r backstop_data/html_report/* .  
           cp -r backstop_data/bitmaps_reference ./bitmaps_reference
+          cp -r backstop_data/bitmaps_test ./bitmaps_test 
           git add .
           git commit -m "Deploy BackstopJS report to GitHub Pages"
           git push --force origin gh-pages
