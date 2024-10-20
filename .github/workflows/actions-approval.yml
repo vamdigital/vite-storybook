@@ -1,0 +1,31 @@
+name: Approve Visual Changes
+
+on:
+  issue_comment:
+    types: [created]
+
+jobs:
+  approve-backstop:
+    runs-on: ubuntu-latest
+    if: |
+      github.event.comment.body == '@bot approve visual changes'
+    steps:
+      - name: Checkout the repository
+        uses: actions/checkout@v2
+
+      - name: Set up BackstopJS
+        run: |
+          npm install backstopjs
+
+      - name: Approve visual changes (update reference images)
+        run: |
+          COMMAND=approve docker compose -f docker-compose.prod.yml up --exit-code-from backstopjs
+
+      - name: Commit and push updated reference images
+        run: |
+
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
+          git add backstop_data/bitmaps_reference
+          git commit -m "Approve BackstopJS visual changes"
+          git push
