@@ -44,6 +44,7 @@ module.exports = {
     bitmaps_test: "backstop_data/bitmaps_test",
     html_report: "backstop_data/html_report",
     ci_report: "backstop_data/ci_report",
+    baseUrl: "vite-storybook",
   },
   report: ["browser", "CI"],
   engine: "puppeteer",
