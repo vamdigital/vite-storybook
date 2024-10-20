@@ -10,12 +10,28 @@ jobs:
     if: |
       github.event.comment.body == '@bot approve visual changes'
     steps:
-      - name: Checkout the repository
-        uses: actions/checkout@v2
+      - name: Checkout Code
+        uses: actions/checkout@v3
 
-      - name: Set up BackstopJS
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "20"
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Build Application with Vite
+        run: npm run build
+
+      - name: Build Storybook
+        run: npm run build-storybook
+
+      # Build Docker and run BackstopJS
+      - name: Build and Run Docker Container
         run: |
-          npm install backstopjs
+          docker buildx build --platform linux/amd64 -t vite-sb -f Dockerfile.prod .
+          docker compose -f docker-compose.prod.yml up --exit-code-from backstopjs
 
       - name: Approve visual changes (update reference images)
         run: |
