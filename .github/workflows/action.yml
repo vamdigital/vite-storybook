@@ -73,7 +73,6 @@ jobs:
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git config --global user.name "github-actions[bot]"
           git checkout --orphan gh-pages
-          cp -r backstop_data/html_report/* .
           cp -r backstop_data/bitmaps_reference ./bitmaps_reference
           cp -r backstop_data/bitmaps_test ./bitmaps_test
           git add .
