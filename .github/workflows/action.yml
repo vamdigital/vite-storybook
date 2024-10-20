@@ -100,9 +100,12 @@ jobs:
         uses: actions/github-script@v6
         with:
           script: |
-            const issue_number = github.context.payload.pull_request.number;
-            const comment_body = `
-              BackstopJS visual regression test **failed**. [View the report here](https://vamdigital.github.io/vite-storybook/html_report).
+            github.rest.issues.createComment({
+              owner: '${{ github.repository_owner }}',
+              repo: context.repo.repo,
+              issue_number: context.payload.pull_request.number,
+              body: 'BackstopJS report generated. You can view it [here](https://vamdigital.github.io/vite-storybook/html_report).'
+            })
 
               If the changes are intentional, you can approve them by commenting:
 
