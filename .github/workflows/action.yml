@@ -98,7 +98,7 @@ jobs:
               owner: '${{ github.repository_owner }}',
               repo: context.repo.repo,
               issue_number: context.payload.pull_request.number,
-              body: 'BackstopJS report generated. You can view it [here](https://vamdigital.github.io/vite-storybook).'
+              body: 'BackstopJS report generated. You can view it [here](https://vamdigital.github.io/vite-storybook/).'
             })
         if: ${{ github.event_name == 'pull_request' }}
   approve:
