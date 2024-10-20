@@ -93,6 +93,7 @@ jobs:
               body: 'BackstopJS report generated. You can view it [here](https://vamdigital.github.io/vite-storybook/html_report).'
             })
         if: ${{ github.event_name == 'pull_request' }}
+
   approve:
     runs-on: ubuntu-latest
     needs: build
@@ -107,4 +108,6 @@ jobs:
         with:
           node-version: "20"
       - name: Approve BackstopJS changes
-        run: npm run backstop:approve
+        run: |
+          docker buildx build --platform linux/amd64 -t vite-sb -f Dockerfile.prod .
+          COMMAND=approve docker compose -f docker-compose.prod.yml up --exit-code-from backstopjs || true
