@@ -74,7 +74,7 @@ jobs:
           git config --global user.name "github-actions[bot]"
           git fetch origin gh-pages
           git checkout --orphan gh-pages
-          cp -r backstop_data/html_report/* .  
+          cp -r backstop_data/html_report/ ./html_report  
           cp -r backstop_data/bitmaps_reference ./bitmaps_reference
           cp -r backstop_data/bitmaps_test ./bitmaps_test 
           git add .
@@ -90,7 +90,7 @@ jobs:
               owner: '${{ github.repository_owner }}',
               repo: context.repo.repo,
               issue_number: context.payload.pull_request.number,
-              body: 'BackstopJS report generated. You can view it [here](https://vamdigital.github.io/vite-storybook).'
+              body: 'BackstopJS report generated. You can view it [here](https://vamdigital.github.io/vite-storybook/html_report).'
             })
         if: ${{ github.event_name == 'pull_request' }}
   approve:
