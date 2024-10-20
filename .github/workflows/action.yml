@@ -72,19 +72,13 @@ jobs:
         run: |
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git config --global user.name "github-actions[bot]"
-         # Fetch the gh-pages branch
           git fetch origin gh-pages
-          # Create a new gh-pages branch without history (clean state)
           git checkout --orphan gh-pages
-          git rm -rf .  # Remove all existing files
-          
-          # Copy only BackstopJS report and images to gh-pages branch
+          git rm -rf .
           mkdir -p backstop_data/html_report/ bitmaps_reference bitmaps_test
-          cp -r backstop_data/html_report/* .  # Copy report files to root
-          cp -r backstop_data/bitmaps_reference ./bitmaps_reference  # Copy reference images
-          cp -r backstop_data/bitmaps_test ./bitmaps_test  # Copy test images
-          
-          # Add and commit the report files to gh-pages branch
+          cp -r backstop_data/html_report/* .  
+          cp -r backstop_data/bitmaps_reference ./bitmaps_reference
+          cp -r backstop_data/bitmaps_test ./bitmaps_test 
           git add .
           git commit -m "Deploy BackstopJS report to GitHub Pages"
           git push --force origin gh-pages
@@ -98,7 +92,7 @@ jobs:
               owner: '${{ github.repository_owner }}',
               repo: context.repo.repo,
               issue_number: context.payload.pull_request.number,
-              body: 'BackstopJS report generated. You can view it [here](https://vamdigital.github.io/vite-storybook/).'
+              body: 'BackstopJS report generated. You can view it [here](https://vamdigital.github.io/vite-storybook/backstop_data/html_report).'
             })
         if: ${{ github.event_name == 'pull_request' }}
   approve:
