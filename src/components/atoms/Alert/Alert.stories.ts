@@ -21,7 +21,7 @@ type Story = StoryObj<typeof meta>;
 export const Success: Story = {
   args: {
     type: "success",
-    children: "Success Successs Message 🎉",
+    children: "Success Message 🎉",
   },
 };
 
