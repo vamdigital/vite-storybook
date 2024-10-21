@@ -1,34 +1,45 @@
-name: Approve Visual Changes
+name: BackstopJS Approval Workflow
 
 on:
-  issue_comment:
-    types: [created]
+  workflow_dispatch:
+    inputs:
+      approve:
+        description: "Approve the visual changes"
+        required: true
+        default: "false"
 
 jobs:
   stop-containers:
     runs-on: ubuntu-latest
     steps:
+      # Checkout code (if needed for stopping containers)
       - name: Checkout code
         uses: actions/checkout@v3
 
+      # Stop and remove running containers
       - name: Stop all running containers
         run: |
-          docker compose -f docker-compose.prod.yml down
+          docker compose down
 
-  approve-backstop:
+      # If specific containers need to be stopped, use this instead:
+      # docker stop $(docker ps -q)
+      # docker rm $(docker ps -a -q)
+
+  approval:
     needs: stop-containers
     runs-on: ubuntu-latest
-    if: |
-      github.event.comment.body == '@bot approve visual changes'
+    if: github.event.inputs.approve == 'true'
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v2
+      # Checkout code again to apply approved changes
+      - name: Checkout code
+        uses: actions/checkout@v3
 
+      # Pull and run approval containers if required
       - name: Run approval containers
         run: |
-          COMMAND=approve docker compose -f docker-compose.prod.yml up
-          echo "Changes Approved!"
+          COMMAND=approve docker compose -f docker-compose.prod.yml up --exit-code-from backstopjs
 
+      # Proceed with further approval steps
       - name: Commit and push updated reference images
         run: |
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
