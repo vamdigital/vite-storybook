@@ -25,6 +25,12 @@ jobs:
       - name: Build Storybook
         run: npm run build-storybook
 
+      # Run test before the approval
+      - name: Build and Run Docker Container
+        run: |
+          docker buildx build --platform linux/amd64 -t vite-sb -f Dockerfile.prod .
+          docker compose -f docker-compose.prod.yml up --exit-code-from backstopjs
+
       # Build Docker and run BackstopJS
       - name: Build and Run Docker Container
         run: |
