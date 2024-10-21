@@ -95,17 +95,8 @@ jobs:
             })
         if: ${{ github.event_name == 'pull_request' }}
 
-      - name: Check for BackstopJS Test Failures
-        id: check-result
-        run: |
-          if grep -q '"status": "fail"' ./backstop_data/html_report/index.html; then
-            echo "::set-output name=backstop-status::fail"
-          else
-            echo "::set-output name=backstop-status::pass"
-          fi
-
       - name: Post PR Comment with Report Link
-        if: steps.check-result.outputs.backstop-status == 'fail'
+        if: failure()
         uses: peter-evans/create-or-update-comment@v3
         with:
           issue-number: ${{ github.event.pull_request.number }}
