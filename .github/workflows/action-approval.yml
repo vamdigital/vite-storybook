@@ -22,7 +22,7 @@ jobs:
         run: |
           COMMAND=approve docker compose -f docker-compose.prod.yml up --exit-code-from backstopjs
 
-      # Commit changes
+      # Commit changes and push it
       - name: Commit and push updated reference images
         run: |
 
