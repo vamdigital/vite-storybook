@@ -1,12 +1,10 @@
 name: BackstopJS Approval
 
 on:
-  issue_comment:
-    types: [created]
+  workflow_dispatch:
 
 jobs:
   approve-backstopjs:
-    if: github.event.comment.body == 'approve'
     runs-on: ubuntu-latest
     services:
       docker:
@@ -31,7 +29,7 @@ jobs:
       - name: Build and Run Docker Container
         run: |
           docker buildx build --platform linux/amd64 -t vite-sb -f Dockerfile.prod .
-          COMMAND=approve docker compose -f docker-compose.prod.yml up --exit-code-from backstopjs
+          COMMENT=approve docker compose -f docker-compose.prod.yml up --exit-code-from backstopjs
 
       - name: Commit and Push Approved Reference Images
         run: |
