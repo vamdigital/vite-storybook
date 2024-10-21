@@ -95,41 +95,22 @@ jobs:
             })
         if: ${{ github.event_name == 'pull_request' }}
 
-      - name: Check for BackstopJS Test failures
-        id: check-result
-        run: |
-          if grep -q '"status": "fail"' ./backstop_data/html_report/index.html; then
-            echo "::set-output name=backstop-status::fail"
-          else
-            echo '::set-output name=backstop-status::pass'
-          fi
-
-      - name: Post PR Comment on Failure with Report link
-        if: steps.check-result.outputs.backstop-status = 'fail'
-        uses: peter-evans/create-or-update-comment@v3
-        with:
-          issue-number: context.payload.pull_request.number
-          body: |
-            :warning: BackstopJS Visual regression tests have failed.
-            [Click here to view the report.](https://vamdigital.github.io/vite-storybook/html_report)
-            If you wish to approve the changes, you can trigger the approval workflow.
-
       # - Posting bot approve changes comment in the PR
-      # - name: Post PR comment with report link and approval option
-      #   if: failure() # Only post if the BackstopJS test fails
-      #   uses: actions/github-script@v6
-      #   with:
-      #     script: |
-      #       const comment_body = `
-      #         BackstopJS visual regression test **failed**. [View the report here](https://vamdigital.github.io/vite-storybook/html_report).
-      #
-      #         If the changes are intentional, you can approve them by commenting:
-      #
-      #         \`@bot approve visual changes\`.
-      #       `;
-      #       github.rest.issues.createComment({
-      #         owner: context.repo.owner,
-      #         repo: context.repo.repo,
-      #         issue_number: context.payload.pull_request.number,
-      #         body: comment_body
-      #       });
+      - name: Post PR comment with report link and approval option
+        if: failure() # Only post if the BackstopJS test fails
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const comment_body = `
+              BackstopJS visual regression test **failed**. [View the report here](https://vamdigital.github.io/vite-storybook/html_report).
+
+              If the changes are intentional, you can approve them by commenting:
+
+              \`@bot approve visual changes\`.
+            `;
+            github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.payload.pull_request.number,
+              body: comment_body
+            });
