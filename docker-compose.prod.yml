@@ -10,6 +10,7 @@ services:
       - "6006:6006"
     environment:
       - HOST=0.0.0.0
+      - CI=true
       - PORT=6006
       - ENVIRONMENT=localhost
     # command: npx serve -s /app/storybook-static
@@ -33,19 +34,20 @@ services:
       context: .
       dockerfile: Dockerfile.backstop
     volumes:
-      - ./backstop_data:/backstop_data
-    entrypoint: [
-        # "/usr/local/bin/wait-for-it.sh",
-        # "sb-app-prod:6006",
-        # "--",
+      - ./backstop_data:/app/backstop_data
+    entrypoint:
+      [
+        "/usr/local/bin/wait-for-it.sh",
+        "sb-app-prod:6006",
+        "--",
         "backstop",
-        # "${COMMAND:-test}",
-        # "--configPath=/app/backstop.config.cjs",
+        "${COMMAND:-test}",
+        "--configPath=/app/backstop.config.cjs",
+        "--no-open",
       ]
     # the below syntax sets the default value to test if COMMAND=approve is not provided while running docker compose up command like so COMMAND=approve docker compose up
-    command: ["${COMMAND:-test}", "--configPath=/app/backstop.config.cjs"]
-    volumes:
-      - .:/app
+    # command:
+    #   ["${COMMAND:-test}", "--configPath=/app/backstop.config.cjs", "--no-open"]
     depends_on:
       - sb-app-prod
     networks:
@@ -64,3 +66,6 @@ services:
 networks:
   sb_network:
     driver: bridge
+
+volumes:
+  backstop_data:
