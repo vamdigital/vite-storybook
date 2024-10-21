@@ -1,0 +1,27 @@
+name: BackstopJS Approval
+
+on:
+  workflow_dispatch: # Manual trigger for the approval process
+
+jobs:
+  approve-backstopjs:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Run BackstopJS Approve
+        run: |
+          COMMAND=approve docker compose -f docker-compose.prod.yml
+
+      - name: Commit and Push Approved Reference Images
+        run: |
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
+          git add backstop_data/bitmaps_reference
+          git commit -m "Approve BackstopJS visual changes"
+          git push
