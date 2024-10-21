@@ -10,17 +10,19 @@ jobs:
     if: |
       github.event.comment.body == '@bot approve visual changes'
     steps:
-      - name: Checkout the repository
-        uses: actions/checkout@v2
+      - name: Checkout Code
+        uses: actions/checkout@v3
 
-      - name: Set up BackstopJS
+      - name: Stop all running container
         run: |
-          npm install backstopjs
+          docker compose -f docker-compose.prod.yml down
 
-      - name: Approve visual changes (update reference images)
+      # Build Docker and run BackstopJS
+      - name: Build and Run Docker Container
         run: |
           COMMAND=approve docker compose -f docker-compose.prod.yml up --exit-code-from backstopjs
 
+      # Commit changes and push it
       - name: Commit and push updated reference images
         run: |
 
