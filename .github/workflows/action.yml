@@ -91,7 +91,7 @@ jobs:
               owner: '${{ github.repository_owner }}',
               repo: context.repo.repo,
               issue_number: context.payload.pull_request.number,
-              body: 'BackstopJS report generated. You can view it [here](https://vamdigital.github.io/vite-storybook/html_report).'
+              body: 'BackstopJS report generated. You can view it [here](https://vamdigital.github.io/vite-storybook/html_report target="_blank").'
             })
         if: ${{ github.event_name == 'pull_request' }}
 
@@ -101,7 +101,7 @@ jobs:
         with:
           script: |
             const comment_body = `
-              BackstopJS visual regression test **failed**. [View the report here](https://vamdigital.github.io/vite-storybook/html_report).
+              BackstopJS visual regression test **failed**. [View the report here](https://vamdigital.github.io/vite-storybook/html_report target="_blank").
 
               If the changes are intentional, you can approve them by commenting:
 

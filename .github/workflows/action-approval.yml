@@ -5,7 +5,18 @@ on:
     types: [created]
 
 jobs:
+  stop-containers:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Stop all running containers
+        run: |
+          docker compose -f docker-compose.prod.yml down
+
   approve-backstop:
+    needs: stop-containers
     runs-on: ubuntu-latest
     if: |
       github.event.comment.body == '@bot approve visual changes'
