@@ -123,8 +123,8 @@ jobs:
             });
   notify-on-failure:
     runs-on: ubuntu-latest
-    needs: run-backstopjs
-    if: env.backstopjs_failed == 'true'
+    needs: build
+    if: failure()
 
     steps:
       - name: Send Slack Notification on Mismatch
