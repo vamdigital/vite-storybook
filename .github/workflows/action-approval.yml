@@ -6,19 +6,20 @@ on:
 jobs:
   approve-backstopjs:
     runs-on: ubuntu-latest
-
+    services:
+      docker:
+        image: "docker:19.03"
+        options: --privileged
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
         with:
           ref: ${{ github.event.pull_request.head.ref }}
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
-
       - name: Run BackstopJS Approve
         run: |
-          COMMAND=approve docker compose -f docker-compose.prod.yml
+          docker buildx build --platform linux/amd64 -t vite-sb -f Dockerfile.prod .
+          COMMAND=approve docker compose -f docker-compose.prod.yml up --exit-code-from backstopjs
 
       - name: Commit and Push Approved Reference Images
         run: |
