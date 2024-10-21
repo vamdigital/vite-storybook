@@ -101,7 +101,7 @@ jobs:
         with:
           script: |
             const comment_body = `
-              BackstopJS visual regression test **failed**. [View the report here](https://vamdigital.github.io/vite-storybook/html_report).
+              BackstopJS visual regression test **failed**. [View the report here](https://vamdigital.github.io/vite-storybook/html_report ).
 
               If the changes are intentional, you can approve them by commenting:
 
