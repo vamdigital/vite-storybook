@@ -30,7 +30,6 @@ jobs:
       # Build Docker and run BackstopJS
       - name: Build and Run Docker Container for Approval
         run: |
-          docker buildx build --platform linux/amd64 -t vite-sb -f Dockerfile.prod .
           COMMAND=approve docker compose -f docker-compose.prod.yml up
 
       - name: Commit and push updated reference images
