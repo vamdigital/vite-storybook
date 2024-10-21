@@ -68,6 +68,17 @@ jobs:
       #         repo: context.repo.repo,
       #         body: commentBody,
       #       });
+      #
+      # Check if BackstopJS Failed
+      - name: Check if BackstopJS Failed
+        id: check-failure
+        run: |
+          if grep -q "Mismatch errors found" backstop_data/html_report/index.html; then
+            echo "backstopjs_failed=true" >> $GITHUB_ENV
+          else
+            echo "backstopjs_failed=false" >> $GITHUB_ENV
+          fi
+
       - name: Deploy BackstopJS Report to GitHub Pages
         if: failure()
         run: |
@@ -110,3 +121,16 @@ jobs:
               issue_number: context.payload.pull_request.number,
               body: comment_body
             });
+  notify-on-failure:
+    runs-on: ubuntu-latest
+    needs: run-backstopjs
+    if: env.backstopjs_failed == 'true'
+
+    steps:
+      - name: Send Slack Notification on Mismatch
+        run: |
+          curl -X POST -H 'Content-type: application/json' --data '{
+            "text": "BackstopJS Visual Regression Test failed for PR #${{ github.event.pull_request.number }}.\nMismatch found in visual tests. Please review and approve the changes: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}.\nYou can approve changes using this link: https://github.com/${{ github.repository }}/actions/workflows/action-approval.yml",
+            "username": "BackstopJS Bot",
+            "icon_emoji": ":exclamation:"
+          }' ${{ secrets.SLACK_WEBHOOK_URL }}
