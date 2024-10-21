@@ -100,10 +100,13 @@ jobs:
         uses: actions/github-script@v6
         with:
           script: |
-            const pr_number = context.payload.pull_request.number;
-            const report_url = `https://vamdigital.github.io/vite-storybook/html_report`;
-            const approve_button = `To approve the changes, click [here](https://github.com/${context.repo.owner}/${context.repo.repo}/actions/workflows/action-approval.yml)`;
-            const comment_body = `BackstopJS has detected visual differences. You can view the [BackstopJS report](${report_url}) or approve the changes. ${approve_button}`;
+            const comment_body = `
+              BackstopJS visual regression test **failed**. [View the report here](https://vamdigital.github.io/vite-storybook/html_report).
+
+              If the changes are intentional, you can approve them by commenting:
+
+              \`approve \`.
+            `;
             github.rest.issues.createComment({
               owner: context.repo.owner,
               repo: context.repo.repo,

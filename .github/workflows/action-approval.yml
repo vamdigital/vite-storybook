@@ -1,10 +1,12 @@
 name: BackstopJS Approval
 
 on:
-  workflow_dispatch:
+  issue_comment:
+    types: [created]
 
 jobs:
   approve-backstopjs:
+    if: github.event.comment.body == 'approve'
     runs-on: ubuntu-latest
     services:
       docker:
@@ -22,9 +24,6 @@ jobs:
       - name: Install Dependencies
         run: npm install
 
-      - name: Build Application with Vite
-        run: npm run build
-
       - name: Build Storybook
         run: npm run build-storybook
 
@@ -32,7 +31,7 @@ jobs:
       - name: Build and Run Docker Container
         run: |
           docker buildx build --platform linux/amd64 -t vite-sb -f Dockerfile.prod .
-          docker compose -f docker-compose.prod.yml up --exit-code-from backstopjs
+          COMMAND=approve docker compose -f docker-compose.prod.yml up --exit-code-from backstopjs
 
       - name: Commit and Push Approved Reference Images
         run: |
