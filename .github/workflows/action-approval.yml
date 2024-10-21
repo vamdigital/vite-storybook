@@ -28,13 +28,9 @@ jobs:
         run: npm run build-storybook
 
       # Build Docker and run BackstopJS
-      - name: Build and Run Docker Container
+      - name: Build and Run Docker Container for Approval
         run: |
           docker buildx build --platform linux/amd64 -t vite-sb -f Dockerfile.prod .
-          docker compose -f docker-compose.prod.yml up --exit-code-from backstopjs
-
-      - name: Approve visual changes (update reference images)
-        run: |
           COMMAND=approve docker compose -f docker-compose.prod.yml up --exit-code-from backstopjs
 
       - name: Commit and push updated reference images
