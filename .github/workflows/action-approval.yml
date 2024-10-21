@@ -18,7 +18,6 @@ jobs:
 
       - name: Run BackstopJS Approve
         run: |
-          docker buildx build --platform linux/amd64 -t vite-sb -f Dockerfile.prod .
           COMMAND=approve docker compose -f docker-compose.prod.yml up --exit-code-from backstopjs
 
       - name: Commit and Push Approved Reference Images
