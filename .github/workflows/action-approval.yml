@@ -22,26 +22,12 @@ jobs:
       github.event.comment.body == '@bot approve visual changes'
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v2
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: "20"
-
-      - name: Install Dependencies
-        run: npm install
-
-      - name: Build Application with Vite
-        run: npm run build
-
-      - name: Build Storybook
-        run: npm run build-storybook
-
-      # Build Docker and run BackstopJS
-      - name: Build and Run Docker Container for Approval
+      - name: Run approval containers
         run: |
           COMMAND=approve docker compose -f docker-compose.prod.yml up
+          echo "Changes Approved!"
 
       - name: Commit and push updated reference images
         run: |
