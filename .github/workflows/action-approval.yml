@@ -13,7 +13,7 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v3
 
-      # remove containers
+      # stop all containers
       - name: Stop all running container
         run: |
           docker system prune -a -f
@@ -21,7 +21,6 @@ jobs:
       # Build Docker and run BackstopJS
       - name: Build and Run Docker Container
         run: |
-          docker buildx build --platform linux/amd64 -t vite-sb -f Dockerfile.prod .
           COMMAND=approve docker compose -f docker-compose.prod.yml up --exit-code-from backstopjs
 
       # Commit changes and push it
