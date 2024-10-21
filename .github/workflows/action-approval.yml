@@ -15,7 +15,6 @@ jobs:
 
       - name: Stop all running container
         run: |
-          docker compose -f docker-compose.prod.yml down
           docker system prune -a -f
 
       # Build Docker and run BackstopJS
