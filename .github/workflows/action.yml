@@ -95,7 +95,6 @@ jobs:
             })
         if: ${{ github.event_name == 'pull_request' }}
 
-      # - Posting bot approve changes comment in the PR
       - name: Post PR comment with report link and approval option
         if: failure() # Only post if the BackstopJS test fails
         uses: actions/github-script@v6
