@@ -1,0 +1,24 @@
+.alert {
+  padding: 4px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid gray;
+}
+
+.alert-success {
+  background: green;
+  color: white;
+}
+
+.alert-info {
+  background: skyblue;
+}
+
+.alert-warning {
+  background: orange;
+}
+
+.alert-error {
+  background: red;
+}
