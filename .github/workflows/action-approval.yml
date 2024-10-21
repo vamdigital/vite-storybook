@@ -1,7 +1,7 @@
 name: BackstopJS Approval
 
 on:
-  workflow_dispatch: # Manual trigger for the approval process
+  workflow_dispatch:
 
 jobs:
   approve-backstopjs:
