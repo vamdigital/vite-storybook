@@ -11,14 +11,28 @@ jobs:
         image: "docker:19.03"
         options: --privileged
     steps:
-      - name: Checkout repository
+      - name: Checkout Code
         uses: actions/checkout@v3
-        with:
-          ref: ${{ github.event.pull_request.head.ref }}
 
-      - name: Run BackstopJS Approve
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "20"
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Build Application with Vite
+        run: npm run build
+
+      - name: Build Storybook
+        run: npm run build-storybook
+
+      # Build Docker and run BackstopJS
+      - name: Build and Run Docker Container
         run: |
-          COMMAND=approve docker compose -f docker-compose.prod.yml up --exit-code-from backstopjs
+          docker buildx build --platform linux/amd64 -t vite-sb -f Dockerfile.prod .
+          docker compose -f docker-compose.prod.yml up --exit-code-from backstopjs
 
       - name: Commit and Push Approved Reference Images
         run: |
