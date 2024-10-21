@@ -130,7 +130,7 @@ jobs:
       - name: Send Slack Notification on Mismatch
         run: |
           curl -X POST -H 'Content-type: application/json' --data '{
-            "text": "BackstopJS Visual Regression Test failed for PR #${{ github.event.pull_request.number }}.\nMismatch found in visual tests. Please review and approve the changes: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}.\nYou can approve changes using this link: https://github.com/${{ github.repository }}/actions/workflows/action-approval.yml",
+            "text": "BackstopJS Visual Regression Test failed for PR #${{ github.event.pull_request.number }}.\nMismatch found in visual tests. Please review and approve the changes:[BackstopJS Report](https://vamdigital.github.io/vite-storybook/html_report).\nYou can approve changes using this link: https://github.com/${{ github.repository }}/actions/workflows/action-approval.yml",
             "username": "BackstopJS Bot",
             "icon_emoji": ":exclamation:"
           }' ${{ secrets.SLACK_WEBHOOK_URL }}
