@@ -1,0 +1,35 @@
+FROM backstopjs/backstopjs:latest
+
+# Copy the wait-for-it script into the container
+COPY wait-for-it.sh /usr/local/bin/wait-for-it.sh
+
+RUN chmod +x /usr/local/bin/wait-for-it.sh
+# Install font rendering libraries
+RUN apt-get update && apt-get install -y \
+    wget \
+    curl \
+    fontconfig \
+    freetype2-demos \
+    libfreetype6 \
+    libfontconfig1
+
+# Setting the timezone 
+ENV TZ=Europe/London
+RUN echo "preparing geographic area...."
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+
+# Install node.js and npm (for BackstopJS)
+RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - && \
+    apt-get install -y nodejs
+
+RUN echo "NODE Version:" && node --version
+RUN echo "NPM Version:" && npm --version
+
+# Install BackstopJS globally
+RUN npm install -g backstopjs 
+
+# # Set the working directory
+WORKDIR /app
+#
+# # Copy the BackstopJS config (backstop.json) and project files
+COPY . .

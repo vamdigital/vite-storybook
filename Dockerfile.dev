@@ -1,0 +1,25 @@
+# Add an image that supports multi-platform
+FROM node:18-alpine
+
+# Create a working directory in the container 
+WORKDIR /app
+
+# Copy Package-lock.json file 
+COPY package*.json ./
+
+# Delete node_modules 
+RUN rm -rf node_modules
+
+# Install npm packages
+RUN npm install
+
+# Copy all files and folders to the container
+COPY . .
+
+# Expose PORT on which app will be served
+EXPOSE 6006
+
+# RUN Command to launch storybook
+CMD ["npm", "run", "storybook"]
+
+

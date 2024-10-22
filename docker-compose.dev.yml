@@ -1,0 +1,15 @@
+version: "3.8"
+
+services:
+  sb-dev:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    ports:
+      - "6006:6006"
+    volumes:
+      - .:/app
+      - /app/node_modules
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+    command: npm run storybook
