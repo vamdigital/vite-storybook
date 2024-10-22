@@ -1,4 +1,4 @@
-import { ReactElement, Children, isValidElement } from "react";
+import React, { ReactElement, Children, isValidElement, Fragment } from "react";
 // Defining Types of allowed child component
 type CardImageProps = { text?: string };
 
@@ -38,6 +38,7 @@ type CardProps = {
         | ReactElement<CardTitleProps>
         | ReactElement<CardAvatarProps>
         | ReactElement<CardContentProps>
+        | ReactElement<typeof Fragment>
       )[];
 };
 
@@ -51,6 +52,7 @@ export const Card = ({ children }: CardProps) => {
         child.type !== CardBadge &&
         child.type !== CardPubDate &&
         child.type !== CardAvatar &&
+        child.type !== Fragment &&
         child.type !== CardContent)
     ) {
       throw new Error(
