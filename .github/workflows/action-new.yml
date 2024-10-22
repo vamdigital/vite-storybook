@@ -145,6 +145,7 @@ jobs:
       - name: Send Slack Notification on Mismatch
         run: |
           curl -X POST -H 'Content-type: application/json' --data '{
+            "channel": "pull-request",
             "text": ":tada: you have a successful backstop report :rocket:",
             "username": "BackstopJS Bot",
             "icon_emoji": ":exclamation:"
