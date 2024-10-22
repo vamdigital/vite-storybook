@@ -1,4 +1,4 @@
-# React + TypeScript + Vite + Github Actions
+# React + TypeScript + Vite + Github Actions + Slack Integration
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
