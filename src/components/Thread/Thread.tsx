@@ -2,17 +2,18 @@
 import { useActionState, useOptimistic, useRef } from "react";
 import { Form } from "./Form";
 import { ThreadList } from "./ThreadList";
+import { deliverMessage } from "./actions";
 
 type State = {
   text: string;
   sending: boolean;
 };
 
-type ThreadProps = {
-  sendMessage: (formData: FormData) => Promise<string>;
-};
+//type ThreadProps = {
+//  sendMessage: (formData: FormData) => Promise<string>;
+//};
 
-export function Thread({ sendMessage }: ThreadProps) {
+export function Thread() {
   const formRef = useRef<HTMLFormElement>(null);
 
   const [state, formAction, isPending] = useActionState(
@@ -22,7 +23,7 @@ export function Thread({ sendMessage }: ThreadProps) {
         addOptimisticMessage([...prevState, { text: msg, sending: true }]);
         formRef.current?.reset();
         // actual api call here
-        const newMsg = await sendMessage(formData);
+        const newMsg = await deliverMessage(msg);
         return [...prevState, { text: newMsg, sending: false, error: null }];
       } catch (error: unknown) {
         if (error instanceof Error) {
