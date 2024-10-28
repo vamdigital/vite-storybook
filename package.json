@@ -16,11 +16,17 @@
     "test:visual": "npm run generate-backstop-config && backstop $npm_config_step --configPath=backstop.config.cjs"
   },
   "dependencies": {
+    "@types/react": "npm:types-react@rc",
+    "@types/react-dom": "npm:types-react-dom@rc",
     "axios": "^1.7.7",
     "http-serve": "^1.0.1",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
+    "react": "19.0.0-rc-1631855f-20241023",
+    "react-dom": "19.0.0-rc-1631855f-20241023",
     "ts-pattern": "^5.4.0"
+  },
+  "overrides": {
+    "@types/react": "npm:types-react@rc",
+    "@types/react-dom": "npm:types-react-dom@rc"
   },
   "devDependencies": {
     "@chromatic-com/storybook": "^1.9.0",
@@ -33,8 +39,6 @@
     "@storybook/react": "^8.3.5",
     "@storybook/react-vite": "^8.3.5",
     "@storybook/test": "^8.3.5",
-    "@types/react": "^18.3.10",
-    "@types/react-dom": "^18.3.0",
     "@vitejs/plugin-react": "^4.3.2",
     "autoprefixer": "^10.4.20",
     "backstopjs": "^6.3.25",
