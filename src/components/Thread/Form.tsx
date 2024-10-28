@@ -1,4 +1,4 @@
-import { RefObject } from "react";
+import { RefObject, startTransition } from "react";
 
 type FormProp = {
   formAction: (payload: FormData) => void;
@@ -7,10 +7,19 @@ type FormProp = {
 };
 
 export const Form = ({ formAction, formRef, pending }: FormProp) => {
+  const submitHandler = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+
+    startTransition(() => {
+      formAction(formData);
+    });
+  };
   return (
     <form
-      action={formAction}
       ref={formRef}
+      onSubmit={submitHandler}
+      //action={formAction}
       className="flex flex-col gap-1 w-full"
     >
       <div className="flex">
