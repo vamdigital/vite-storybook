@@ -27,7 +27,7 @@ export const Form = ({ formAction, formRef, pending }: FormProp) => {
           type="text"
           name="message"
           readOnly={pending}
-          placeholder="Hello!"
+          placeholder={pending ? "wait... processing" : "type it on"}
           className="h-11 p-4 bg-slate-200 w-full text-slate-700"
         />
         <button
